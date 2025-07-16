@@ -9,21 +9,21 @@ export const getProducts = async(req,res)=>{
         console.log("error in fetching products:", error.message)
         res.status(500).json({success:false,message:"Server Error"});
     }};
-export const createProduct =async(req,res)=>{
-    const product = req.body;//user will send this data
+export const createProduct = async (req, res) => {
+    const product = req.body;
 
-    if(!product.name || !product.price || !product.image){
-        res.status(400).json({success :false,message:"Please provide all fields"})
+    if (!product.name || !product.price || !product.image) {
+        return res.status(400).json({ success: false, message: "Please provide all fields" });
     }
 
     const newProduct = new Product(product);
 
     try {
         await newProduct.save();
-        res.status(201).json({success:true, product:newProduct})
+        res.status(201).json({ success: true, data: newProduct });
     } catch (error) {
-        console.error("Error in Create Product:",error.message);
-        res.status(500).json({success:false,message:"Server Error)"});
+        console.error("Error in Create Product:", error.message);
+        res.status(500).json({ success: false, message: "Server Error" });
     }
 };
 
